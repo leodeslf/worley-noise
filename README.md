@@ -19,9 +19,7 @@
 
 A Worley Noise library for JavaScript.
 
-## Features
-
-### Methods
+## Feature Shape
 
 |`Worley`
 |---
