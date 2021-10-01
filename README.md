@@ -24,8 +24,8 @@ A Worley Noise library for JavaScript.
 |`Worley`
 |---
 |`spots: Vec2[] \| Vec3[]`
-|`set dimention: '2d' \| '3d' = '2d'`
-|`set metric: 'euclidean' \| 'manhattan' \| 'chebyshev' \| 'minkowski' = 'euclidean'`
+|`set dimention: '2d' \| '3d'`
+|`set metric: 'euclidean' \| 'manhattan' \| 'chebyshev' \| 'minkowski'`
 |`st(position: Vec2 \| Vec3, e?: number = 3): number` (1st closest)
 |`nd(position: Vec2 \| Vec3, e?: number = 3): number[]` (1st and 2nd closest)
 
@@ -44,7 +44,11 @@ import Worley from '@leodeslf/worley-noise';
 ## Usage
 
 ```javascript
-const worley = new Worley(spots, '3d', 'manhattan');
+const worley = new Worley(
+  spots,
+  '3d',       // Default '2d' (optional).
+  'manhattan' // Default 'euclidean' (optional).
+);
 
 worley.st(position);
 ```
