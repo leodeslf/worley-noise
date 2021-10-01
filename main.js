@@ -1,4 +1,4 @@
-import Worley from '../worley.js';
+import Worley from './worley.js';
 import { Vec3 } from '@leodeslf/vec.js';
 
 let ctx;

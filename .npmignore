@@ -1,5 +1,9 @@
-/demo
 /node_modules
+
 .gitignore
 package-lock.json
 webpack.config.js
+
+index.html
+main.js
+main.bundle.js

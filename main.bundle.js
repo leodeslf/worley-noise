@@ -10,13 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./demo/main.js":
-/*!**********************!*\
-  !*** ./demo/main.js ***!
-  \**********************/
+/***/ "./main.js":
+/*!*****************!*\
+  !*** ./main.js ***!
+  \*****************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _worley_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../worley.js */ \"./worley.js\");\n/* harmony import */ var _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @leodeslf/vec.js */ \"./node_modules/@leodeslf/vec.js/vec.js\");\n\r\n\r\n\r\nlet ctx;\r\n\r\nwindow.addEventListener('load', () => {\r\n  ctx = document.getElementById('canvas').getContext('2d');\r\n  ctx.fillStyle = 'red';\r\n  draw();\r\n});\r\n\r\nconst SIDE = 300;\r\nconst HALF_SIDE = SIDE * .5;\r\nconst CENTER = new _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3(HALF_SIDE, HALF_SIDE, HALF_SIDE);\r\nconst SPOTS_N = 20;\r\nconst SPOTS = [];\r\nfor (let i = 0; i < SPOTS_N; i++) {\r\n  SPOTS[i] = _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3.random();\r\n  SPOTS[i].scale(HALF_SIDE);\r\n  SPOTS[i].add(CENTER);\r\n}\r\nconst WORLEY = new _worley_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](SPOTS, '3d');\r\nconst IMAGE_DATA = new ImageData(SIDE, SIDE);\r\n\r\nfunction draw() {\r\n  for (let v = 0; v < SIDE; v++) {\r\n    for (let u = 0; u < SIDE; u++) {\r\n      const values = WORLEY.nd(new _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3(u, v, 0));\r\n      const value = (values[1] - values[0]) * 2;\r\n      const index = (v * SIDE + u) * 4;\r\n      for (let rgb = 0; rgb < 3; rgb++) {\r\n        IMAGE_DATA.data[index + rgb] = value;\r\n      }\r\n      IMAGE_DATA.data[index + 3] = 255;\r\n    }\r\n  }\r\n  ctx.clearRect(0, 0, SIDE, SIDE);\r\n  ctx.putImageData(IMAGE_DATA, 0, 0);\r\n  update();\r\n  requestAnimationFrame(draw)\r\n}\r\n\r\nfunction update() {\r\n  for (let i = 0; i < SPOTS_N; i++) {\r\n    SPOTS[i].subtract(CENTER);\r\n    SPOTS[i].rotateAxisY(.0003 * (i + 1));\r\n    SPOTS[i].add(CENTER);\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://@leodeslf/worley-noise/./demo/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _worley_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./worley.js */ \"./worley.js\");\n/* harmony import */ var _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @leodeslf/vec.js */ \"./node_modules/@leodeslf/vec.js/vec.js\");\n\r\n\r\n\r\nlet ctx;\r\n\r\nwindow.addEventListener('load', () => {\r\n  ctx = document.getElementById('canvas').getContext('2d');\r\n  ctx.fillStyle = 'red';\r\n  draw();\r\n});\r\n\r\nconst SIDE = 300;\r\nconst HALF_SIDE = SIDE * .5;\r\nconst CENTER = new _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3(HALF_SIDE, HALF_SIDE, HALF_SIDE);\r\nconst SPOTS_N = 20;\r\nconst SPOTS = [];\r\nfor (let i = 0; i < SPOTS_N; i++) {\r\n  SPOTS[i] = _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3.random();\r\n  SPOTS[i].scale(HALF_SIDE);\r\n  SPOTS[i].add(CENTER);\r\n}\r\nconst WORLEY = new _worley_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](SPOTS, '3d');\r\nconst IMAGE_DATA = new ImageData(SIDE, SIDE);\r\n\r\nfunction draw() {\r\n  for (let v = 0; v < SIDE; v++) {\r\n    for (let u = 0; u < SIDE; u++) {\r\n      const values = WORLEY.nd(new _leodeslf_vec_js__WEBPACK_IMPORTED_MODULE_1__.Vec3(u, v, 0));\r\n      const value = (values[1] - values[0]) * 2;\r\n      const index = (v * SIDE + u) * 4;\r\n      for (let rgb = 0; rgb < 3; rgb++) {\r\n        IMAGE_DATA.data[index + rgb] = value;\r\n      }\r\n      IMAGE_DATA.data[index + 3] = 255;\r\n    }\r\n  }\r\n  ctx.clearRect(0, 0, SIDE, SIDE);\r\n  ctx.putImageData(IMAGE_DATA, 0, 0);\r\n  update();\r\n  requestAnimationFrame(draw)\r\n}\r\n\r\nfunction update() {\r\n  for (let i = 0; i < SPOTS_N; i++) {\r\n    SPOTS[i].subtract(CENTER);\r\n    SPOTS[i].rotateAxisY(.0003 * (i + 1));\r\n    SPOTS[i].add(CENTER);\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://@leodeslf/worley-noise/./main.js?");
 
 /***/ }),
 
@@ -100,7 +100,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./demo/main.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./main.js");
 /******/ 	
 /******/ })()
 ;

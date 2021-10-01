@@ -1,8 +1,8 @@
 module.exports = {
   mode: 'development',
-  entry:  './demo/main.js',
+  entry:  './main.js',
   output: {
-    filename: 'bundle.js',
-    path: `${__dirname}/demo`
+    filename: 'main.bundle.js',
+    path: `${__dirname}/`
   }
 }
