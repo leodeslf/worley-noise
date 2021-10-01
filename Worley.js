@@ -1,136 +1,81 @@
-import Vector from "./Vector.js";
+import { Vec2, Vec3 } from "@leodeslf/vec.js";
 
-/**
- * A tool to generate Worley Noise values.
- */
-const WORLEY = {
-	/**
-	 * Returns a two-dimensional value based on the first closest point
-	 * euclidian distance.
-	 * Using a single random color per 'area'.
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
-	 */
-	st(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		for (let i = 0; i < spots.length; i++) {
-			let dist = Vector.distanceEuclidian(pos, spots[i].pos);
-			if (dist < minDist) {
-				minDist = dist;
-				minPoint = spots[i];
-			}
-		}
-		return { minDist, minPoint };
-	},
+class Worley {
+	#metricName;
+	#class;
+	#function;
 
 	/**
-	 * Returns a two-dimensional value based on the second closest point
-	 * euclidian distance.
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
+	 * @param {Vec2[]|Vec3[]} spots
+	 * @param {'2d'|'3d'} [dimentionName]
+	 * @param {'euclidean'|'manhattan'|'chebyshev'|'minkowski'} [metricName]
 	 */
-	nd(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		let nMin = [minDist - 1, minDist];
-		for (let i = 0; i < spots.length; i++) {
-			let dist = Vector.distanceEuclidian(pos, spots[i].pos);
-			if (dist < nMin[0]) {
-				nMin[1] = nMin[0];
-				nMin[0] = dist;
-				minPoint = spots[i];
-			} else if (dist < nMin[1]) {
-				nMin[1] = dist;
-				minPoint = spots[i];
-			}
-		}
-		minDist = nMin[1];
-		return { minDist, minPoint };
-	},
-
-	/**
-	 * Returns a two-dimensional value based on the second minus fist
-	 * closest point euclidian distance.
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
-	 */
-	ndMinusSt(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		let nMin = [minDist - 1, minDist];
-		for (let i = 0; i < spots.length; i++) {
-			let dist = Vector.distanceEuclidian(pos, spots[i].pos);
-			if (dist < nMin[0]) {
-				nMin[1] = nMin[0];
-				nMin[0] = dist;
-				minPoint = spots[i];
-			} else if (dist < nMin[1]) {
-				nMin[1] = dist;
-				minPoint = spots[i];
-			}
-		}
-		minDist = nMin[1] - nMin[0];
-		return { minDist, minPoint };
-	},
-
-	/**
-	 * Returns a two-dimensional value based on the first closest point
-	 * using manhattan metrics.
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
-	 */
-	manhattan(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		for (let i = 0; i < spots.length; i++) {
-			let dist = Vector.distanceManhattan(pos, spots[i].pos);
-			if (dist < minDist) {
-				minDist = dist;
-				minPoint = spots[i];
-			}
-		}
-		return { minDist, minPoint };
-	},
-
-	/**
-	 * Returns a two-dimensional value based on the first closest point
-	 * using chebyshev metrics (manhattan-like rotated 45 degrees).
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
-	 */
-	chebyshev(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		for (let i = 0; i < spots.length; i++) {
-			let dist = Vector.distanceChebyshev(pos, spots[i].pos);
-			if (dist < minDist) {
-				minDist = dist;
-				minPoint = spots[i];
-			}
-		}
-		return { minDist, minPoint };
-	},
-
-	/**
-	 * Returns a two-dimensional value based on the first closest point
-	 * using minkowski metrics. 
-	 * @param {Spots[]} spots An array of points.
-	 * @param {Vector} pos A Vector pointing to the current X and Y.
-	 * @returns {number}
-	 */
-	minkowski(spots, pos) {
-		let minDist = Infinity, minPoint = undefined;
-		for (let i = 0; i < spots.length; i++) {
-			let e = 3;
-			let dist = Vector.distanceMinkowski(pos, spots[i].pos, e);
-			if (dist < minDist) {
-				minDist = dist;
-				minPoint = spots[i];
-			}
-		}
-		return { minDist, minPoint };
+	constructor(spots, dimentionName, metricName) {
+		this.#metricName = metricName;
+		this.dimention = dimentionName;
+		this.spots = spots;
 	}
-};
 
-export default WORLEY;
+	/**
+	 * @param {'2d'|'3d'} dimentionName
+	 */
+	set dimention(dimentionName) {
+		switch (dimentionName) {
+			case '2d': this.#class = Vec2; break;
+			case '3d': this.#class = Vec3; break;
+			default: this.#class = Vec2; break;
+		}
+		this.metric = this.#metricName;
+	}
+
+	/**
+	 * @param {'euclidean'|'manhattan'|'chebyshev'|'minkowski'} metricName
+	 */
+	set metric(metricName) {
+		this.#metricName = metricName;
+		switch (metricName) {
+			case 'euclidean': this.#function = this.#class.distance; break;
+			case 'chebyshev': this.#function = this.#class.distanceChebyshev; break;
+			case 'manhattan': this.#function = this.#class.distanceManhattan; break;
+			case 'minkowski': this.#function = this.#class.distanceMinkowski; break;
+			default: this.#function = this.#class.distance; break;
+		}
+	}
+
+	/**
+	 * Returns the distance from the first & second closest spot to the position.
+	 * @param {Vec2} position Current position.
+	 * @param {number} [e = 3] Minkowski exponent.
+	 * @returns {number[]}
+	 */
+	nd(position, e = 3) {
+		let stDistance = Infinity;
+		let ndDistance = Infinity;
+		for (let i = 0; i < this.spots.length; i++) {
+			let distance = this.#function(position, this.spots[i], e);
+			if (distance < stDistance) {
+				[ndDistance, stDistance] = [stDistance, distance];
+			} else if (distance < ndDistance) {
+				ndDistance = distance;
+			}
+		}
+		return [stDistance, ndDistance];
+	}
+
+	/**
+	 * Returns the distance from the first closest spot to the position.
+	 * @param {Vec2} position Current position.
+	 * @param {number} [e = 3] Minkowski exponent.
+	 * @returns {number}
+	 */
+	st(position, e = 3) {
+		let stDistance = Infinity;
+		for (let i = 0; i < this.spots.length; i++) {
+			let distance = this.#function(position, this.spots[i], e);
+			if (distance < stDistance) stDistance = distance;
+		}
+		return stDistance;
+	}
+}
+
+export default Worley;
