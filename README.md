@@ -26,8 +26,8 @@ A Worley Noise library for JavaScript.
 |`Worley`
 |---
 |`spots: Vec2[] \| Vec3[]`
-|`set dimention: '2d' \| '3d'`
-|`set metric: 'euclidean' \| 'manhattan' \| 'chebyshev' \| 'minkowski'`
+|`set dimention: '2d' \| '3d' = '2d'`
+|`set metric: 'euclidean' \| 'manhattan' \| 'chebyshev' \| 'minkowski' = 'euclidean'`
 |`st(position: Vec2 \| Vec3, e?: number = 3): number` (1st closest)
 |`nd(position: Vec2 \| Vec3, e?: number = 3): number[]` (1st and 2nd closest)
 
@@ -46,21 +46,12 @@ import Worley from '@leodeslf/worley-noise';
 ## Usage
 
 ```javascript
-const worley = new Worley(
-  spots,
-  '3d',       // Default '2d' (optional).
-  'manhattan' // Default 'euclidean' (optional).
-);
+const worley = new Worley(spots, '3d', 'manhattan');
 
 worley.st(position);
-
-/**
- * Notice Worley makes use of Vec.js to compute distances.
- * 
- * Anyway, both the spots and the position will work by just having the
- * shape of { x: number, y: number, z?: number } instead of being a Vec.
- */
 ```
+
+[Live demo here](https://leodeslf.github.io/worley-noise/ "GitHub Pages") (3d, euclidean, nd - st).
 
 ## Author
 
