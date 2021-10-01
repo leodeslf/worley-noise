@@ -11,7 +11,6 @@
     "webpack-cli": "^4.8.0"
   },
   "scripts": {
-    "start": "wds -p 8013 --node-resolve -w -o",
     "build": "webpack"
   },
   "repository": {
